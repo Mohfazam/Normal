@@ -1,5 +1,10 @@
-import { Navbar } from "../Components/Navbar"
-import { PostCard } from "../Components/PostCard"
+import { Navbar } from "../Components/Navbar";
+import { PostCard } from "../Components/PostCard";
+
+const Post = {
+    title: "Title for the post which should be fetched from the backend",
+    body: "loresdjfvb ieuriwbebdvwbde iwheiwebwbe ier ierhf  rrei"
+}
 
 export const AllPosts = () => {
     return(
@@ -18,8 +23,8 @@ export const AllPosts = () => {
                 </div>
             </div>
 
-            <div>
-                <PostCard />
+            <div className="flex justify-center">
+                <PostCard post={Post}/>
             </div>
         </div>
     )
