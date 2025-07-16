@@ -33,14 +33,36 @@ app.post("/addPost", (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 body: body,
             }
         });
-        res.status(200).json({
+        return res.status(200).json({
             Message: "Post Added Successfully",
             response
         });
     }
     catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             Message: "Something wrong",
+            error: error
+        });
+    }
+}));
+app.put("/updatePost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { title, body, id } = req.body;
+    try {
+        const updatedPost = yield client.post.update({
+            where: { id: id },
+            data: {
+                title: title,
+                body: body
+            }
+        });
+        return res.status(200).json({
+            Message: "Post Updated successfully",
+            updatedPost
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            Message: "Something went wrong",
             error: error
         });
     }

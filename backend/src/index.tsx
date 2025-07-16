@@ -39,9 +39,22 @@ app.post("/addPost", async (req, res) => {
 });
 
 app.put("/updatePost", async (req, res) => {
-    const {title, body} = req.body;
+    const {title, body, id} = req.body;
 
     try{
+
+        const updatedPost  = await client.post.update({
+            where: {id: id},
+            data:{
+                title: title,
+                body: body
+            }
+        });
+
+        return res.status(200).json({
+            Message: "Post Updated successfully",
+            updatedPost
+        });
 
     } catch(error){
         return res.status(500).json({
