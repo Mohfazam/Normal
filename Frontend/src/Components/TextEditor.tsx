@@ -15,6 +15,10 @@ import { common, createLowlight } from 'lowlight'
 
 const lowlight = createLowlight(common)
 
+
+const DEFAULT_TITLE = '<h1>Title goes here</h1>'
+const DEFAULT_BODY = '<p>Start writing your story...</p>'
+
 interface TextEditorProps {
   editable: boolean;
   initialTitle?: string;
@@ -24,14 +28,13 @@ interface TextEditorProps {
 
 export const TextEditor = ({ 
   editable,
-  initialTitle = '<h1>Title goes here</h1>',
-  initialBody = '<p>Start writing your story...</p>',
+  initialTitle = DEFAULT_TITLE,
+  initialBody = DEFAULT_BODY,
   onSave 
 }: TextEditorProps) => {
-  const [content, setContent] = useState({
-    title: initialTitle,
-    body: initialBody,
-  })
+  
+  const [previewTitle, setPreviewTitle] = useState(initialTitle)
+  const [previewBody, setPreviewBody] = useState(initialBody)
 
   const headingEditor = useEditor({
     extensions: [
@@ -55,6 +58,9 @@ export const TextEditor = ({
       attributes: {
         class: 'focus:outline-none',
       },
+    },
+    onUpdate: ({ editor }) => {
+      setPreviewTitle(editor.getHTML())
     },
   })
 
@@ -101,15 +107,20 @@ export const TextEditor = ({
         class: 'focus:outline-none',
       },
     },
+    onUpdate: ({ editor }) => {
+      setPreviewBody(editor.getHTML())
+    },
   })
 
-  // Update editors when initial content changes (e.g., after fetching from API)
+
   useEffect(() => {
     if (headingEditor && initialTitle) {
       headingEditor.commands.setContent(initialTitle)
+      setPreviewTitle(initialTitle)
     }
     if (bodyEditor && initialBody) {
       bodyEditor.commands.setContent(initialBody)
+      setPreviewBody(initialBody)
     }
   }, [initialTitle, initialBody, headingEditor, bodyEditor])
 
@@ -119,7 +130,6 @@ export const TextEditor = ({
         title: headingEditor.getHTML(),
         body: bodyEditor.getHTML(),
       }
-      setContent(newContent)
       onSave(newContent)
     }
   }
@@ -184,20 +194,22 @@ export const TextEditor = ({
     </BubbleMenu>
   )
 
+  const isEditMode = initialTitle !== DEFAULT_TITLE || initialBody !== DEFAULT_BODY
+
   return (
     <div className="max-w-3xl mx-auto pb-20">
-      {/* Fixed publish/update button */}
+      
       <div className="fixed top-4 right-4 z-10">
         <button 
           onClick={handleSave} 
           className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition shadow-md"
         >
-          {initialTitle ? 'Update' : 'Publish'}
+          {isEditMode ? 'Update' : 'Publish'}
         </button>
       </div>
 
-      {/* Title editor with bubble menu */}
-      <div className="pt-20 mb-12 relative">
+      
+      <div className="p-12 m-10 relative border rounded-4xl border-gray-300">
         {headingEditor && renderBubbleMenu(headingEditor, true)}
         <EditorContent 
           editor={headingEditor} 
@@ -205,8 +217,8 @@ export const TextEditor = ({
         />
       </div>
 
-      {/* Body editor with bubble menu */}
-      <div className="relative">
+      
+      <div className="w-3xl border rounded-4xl border-gray-300 p-8">
         {bodyEditor && renderBubbleMenu(bodyEditor)}
         <EditorContent 
           editor={bodyEditor} 
@@ -214,22 +226,19 @@ export const TextEditor = ({
         />
       </div>
 
-      {/* Preview section */}
-      {(content.title || content.body) && (
-        <div className="mt-20 pt-10 border-t border-gray-200">
-          <h3 className="text-2xl font-bold mb-8 text-gray-500">Preview</h3>
-          <div className="prose max-w-none prose-lg mx-auto">
-            <div 
-              className="font-serif text-5xl font-bold text-center mb-12"
-              dangerouslySetInnerHTML={{ __html: content.title }} 
-            />
-            <div 
-              className="font-serif text-xl leading-8 text-gray-700"
-              dangerouslySetInnerHTML={{ __html: content.body }} 
-            />
-          </div>
+      <div className="mt-20 pt-10 border-t border-gray-200">
+        <h3 className="text-2xl font-bold mb-8 text-gray-500">Preview</h3>
+        <div className="prose max-w-none prose-lg mx-auto">
+          <div 
+            className="font-serif text-5xl font-bold text-center mb-12"
+            dangerouslySetInnerHTML={{ __html: previewTitle }} 
+          />
+          <div 
+            className="font-serif text-xl leading-8 text-gray-700"
+            dangerouslySetInnerHTML={{ __html: previewBody }} 
+          />
         </div>
-      )}
+      </div>
     </div>
   )
 }
