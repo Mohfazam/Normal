@@ -3,7 +3,8 @@ import { PostCard } from "../Components/PostCard";
 
 const Post = {
     title: "Title for the post which should be fetched from the backend",
-    body: "loresdjfvb ieuriwbebdvwbde iwheiwebwbe ier ierhf  rrei"
+    body: "loresdjfvb ieuriwbebdvwbde iwheiwebwbe ier ierhf  rrei",
+    date:"July 17 2025"
 }
 
 export const AllPosts = () => {
