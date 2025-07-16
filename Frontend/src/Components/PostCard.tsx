@@ -26,7 +26,8 @@ export const PostCard = ({post}:PostCardProps) => {
                 <div className="text-sm text-gray-500">
                     {new Date(post.createdAt).toLocaleDateString("en-US", {
                         year: "numeric",
-                        
+                        month: "short",
+                        day: "numeric"
                     })}
                 </div>
 
