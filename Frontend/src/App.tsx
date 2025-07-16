@@ -7,7 +7,7 @@ function App() {
 
   return (
     <>
-      <TextEditor />
+      <TextEditor Editable={true}/>
     </>
   )
 }
