@@ -88,8 +88,6 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
           { label: 'Italic', command: 'toggleItalic', icon: 'I' },
           { label: 'Strike', command: 'toggleStrike', icon: 'S' },
           { label: 'Underline', command: 'toggleUnderline', icon: 'U' },
-          { label: 'Code', command: 'toggleCode', icon: '</>' },
-          { label: 'Link', command: 'setLink', icon: '🔗' },
           { label: 'Align Left', command: 'setTextAlign', args: ['left'], icon: '⬅' },
           { label: 'Align Center', command: 'setTextAlign', args: ['center'], icon: '⨀' },
           { label: 'Align Right', command: 'setTextAlign', args: ['right'], icon: '➡' },
