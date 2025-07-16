@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 interface PostCardProps{
     post: {
         id: number;
@@ -5,8 +7,18 @@ interface PostCardProps{
         body: string;
         createdAt: string
     }
-}       
+}    
+
+
 export const PostCard = ({post}:PostCardProps) => {
+
+    const navigate = useNavigate();
+
+const handlereadMore = () => {
+    navigate(`/postEdit/${post.id}`);
+}
+    
+
     return(
         <div className="bg-white border-b border-gray-100 pb-8 mb-8 last:border-b-0 last:mb-0 group cursor-pointer mr-8">
             <div>
@@ -33,7 +45,7 @@ export const PostCard = ({post}:PostCardProps) => {
                 </div>
 
                 <div>
-                    <button className="text-sm text-green-600 hover:text-green-700 font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 rounded-md px-2 py-1 hover:cursor-pointer">
+                    <button className="text-sm text-green-600 hover:text-green-700 font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 rounded-md px-2 py-1 hover:cursor-pointer" onClick={handlereadMore}>
                         Read More
                     </button>
                 </div>
