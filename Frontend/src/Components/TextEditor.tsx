@@ -28,46 +28,71 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
   const headingEditor = useEditor({
     extensions: [
       StarterKit.configure({ heading: false }),
-      Heading.configure({ levels: [1, 2, 3] }),
+      Heading.configure({ 
+        levels: [1, 2, 3],
+        HTMLAttributes: {
+          class: 'font-serif font-bold tracking-tight'
+        }
+      }),
       Underline,
       TextAlign.configure({ types: ['heading'] }),
       Link.configure({
         openOnClick: true,
-        HTMLAttributes: { class: 'text-blue-500 hover:underline' }
+        HTMLAttributes: { class: 'text-green-600 hover:underline' }
       }),
     ],
     content: '<h1>Title goes here</h1>',
     editable: Editable,
+    editorProps: {
+      attributes: {
+        class: 'focus:outline-none',
+      },
+    },
   })
 
   const bodyEditor = useEditor({
     extensions: [
-      StarterKit,
-      Underline,
+      StarterKit.configure({
+        paragraph: {
+          HTMLAttributes: {
+            class: 'font-serif text-xl leading-8 mb-6 text-gray-700'
+          }
+        }
+      }),
       TextAlign.configure({ types: ['paragraph', 'heading'] }),
       Link.configure({
         openOnClick: true,
-        HTMLAttributes: { class: 'text-blue-500 hover:underline' }
+        HTMLAttributes: { class: 'text-green-600 hover:underline' }
       }),
       BulletList.configure({
-        HTMLAttributes: { class: 'list-disc pl-5' },
+        HTMLAttributes: { class: 'list-disc pl-10 mb-6' },
       }),
       OrderedList.configure({
-        HTMLAttributes: { class: 'list-decimal pl-5' },
+        HTMLAttributes: { class: 'list-decimal pl-10 mb-6' },
       }),
       Blockquote.configure({
-        HTMLAttributes: { class: 'border-l-4 border-gray-300 pl-4 italic' },
+        HTMLAttributes: { 
+          class: 'border-l-4 border-gray-300 pl-6 italic my-6 py-2 text-gray-600' 
+        },
       }),
       Code.configure({
-        HTMLAttributes: { class: 'bg-gray-100 p-1 rounded' },
+        HTMLAttributes: { class: 'bg-gray-100 p-1 rounded font-mono' },
       }),
       CodeBlockLowlight.configure({
         lowlight,
-        HTMLAttributes: { class: 'bg-gray-800 text-gray-100 p-4 rounded' },
+        HTMLAttributes: { 
+          class: 'bg-gray-900 text-gray-100 p-4 rounded my-6 font-mono' 
+        },
       }),
+      Underline,
     ],
     content: '<p>Start writing your story...</p>',
     editable: Editable,
+    editorProps: {
+      attributes: {
+        class: 'focus:outline-none',
+      },
+    },
   })
 
   const handleSave = () => {
@@ -79,71 +104,125 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
     }
   }
 
-  const renderBubbleMenu = (editor: any) => (
-    // @ts-ignore
-    <BubbleMenu editor={editor} tippyOptions={{ duration: 0 }}>
-      <div className="flex gap-1 p-1 bg-white border border-gray-200 rounded shadow-md">
+  const renderBubbleMenu = (editor: any, isTitle: boolean = false) => (
+    <BubbleMenu 
+      editor={editor} 
+    //   @ts-ignore
+      tippyOptions={{ 
+        duration: 0,
+        placement: 'top',
+        offset: [0, 10],
+        zIndex: 999,
+      }}
+      shouldShow={({ editor }) => {
+        // Only show bubble menu when there's text selected
+        return editor.view.state.selection.content().size > 0
+      }}
+    >
+      <div className="flex gap-0.5 p-1 bg-gray-900 text-white rounded shadow-lg">
         {[
           { label: 'Bold', command: 'toggleBold', icon: 'B' },
           { label: 'Italic', command: 'toggleItalic', icon: 'I' },
-          { label: 'Strike', command: 'toggleStrike', icon: 'S' },
           { label: 'Underline', command: 'toggleUnderline', icon: 'U' },
-          { label: 'Align Left', command: 'setTextAlign', args: ['left'], icon: '⬅' },
-          { label: 'Align Center', command: 'setTextAlign', args: ['center'], icon: '⨀' },
-          { label: 'Align Right', command: 'setTextAlign', args: ['right'], icon: '➡' },
-        ].map(({ label, command, args = [], icon }) => (
-          <button
-            key={label}
-            onClick={() => editor.chain().focus()[command](...args).run()}
-            className={`p-2 rounded hover:bg-gray-100 ${
-              editor.isActive(command.replace('toggle', '').toLowerCase()) ||
-              (command === 'setTextAlign' && editor.isActive({ textAlign: args[0] }))
-                ? 'bg-gray-200'
-                : ''
-            }`}
-            title={label}
-          >
-            {icon}
-          </button>
-        ))}
+          ...(isTitle ? [] : [
+            { label: 'H1', command: 'toggleHeading', args: [{ level: 1 }], icon: 'H1' },
+            { label: 'H2', command: 'toggleHeading', args: [{ level: 2 }], icon: 'H2' },
+            { label: 'H3', command: 'toggleHeading', args: [{ level: 3 }], icon: 'H3' }
+          ]),
+          ...(isTitle ? [] : [
+            { label: 'Quote', command: 'toggleBlockquote', icon: '❝' },
+            { label: 'Code', command: 'toggleCodeBlock', icon: '</>' },
+            { label: 'Bullets', command: 'toggleBulletList', icon: '•' },
+          ]),
+        ].map(({ label, command, args = [], icon }) => {
+          let isActive = false;
+          
+          // Special handling for heading activation check
+          if (command === 'toggleHeading') {
+            isActive = editor.isActive('heading', { level: args[0]?.level || 2 });
+          } 
+          // Special handling for blockquote
+          else if (command === 'toggleBlockquote') {
+            isActive = editor.isActive('blockquote');
+          }
+          // Special handling for bullet list
+          else if (command === 'toggleBulletList') {
+            isActive = editor.isActive('bulletList');
+          }
+          // Special handling for code block
+          else if (command === 'toggleCodeBlock') {
+            isActive = editor.isActive('codeBlock');
+          }
+          // Default activation check
+          else {
+            const baseCommand = command.replace('toggle', '').toLowerCase();
+            isActive = editor.isActive(baseCommand);
+          }
+          
+          return (
+            <button
+              key={label}
+              onClick={() => editor.chain().focus()[command](...args).run()}
+              className={`p-2 rounded hover:bg-gray-700 text-sm font-medium ${
+                isActive ? 'bg-gray-700' : ''
+              }`}
+              title={label}
+            >
+              {icon}
+            </button>
+          )
+        })}
       </div>
     </BubbleMenu>
   )
-    console.log(content);
+
   return (
-    <div className="p-8 max-w-3xl mx-auto">
-      <button 
-        onClick={handleSave} 
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-      >
-        Post Blog
-      </button>
+    <div className="max-w-3xl mx-auto pb-20">
+      {/* Fixed publish button */}
+      <div className="fixed top-4 right-4 z-10">
+        <button 
+          onClick={handleSave} 
+          className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition shadow-md"
+        >
+          Publish
+        </button>
+      </div>
 
-      {headingEditor && renderBubbleMenu(headingEditor)}
-      <EditorContent 
-        editor={headingEditor} 
-        className="heading-editor border border-gray-300 rounded p-4 mb-6 min-h-[60px] focus:outline-none focus:ring-2 focus:ring-blue-300"
-      />
-
-      {bodyEditor && renderBubbleMenu(bodyEditor)}
-      <EditorContent 
-        editor={bodyEditor} 
-        className="body-editor border border-gray-300 rounded p-4 min-h-[200px] focus:outline-none focus:ring-2 focus:ring-blue-300"
-      />
-
-      <hr className="my-8 border-t border-gray-300" />
-      <h3 className="text-xl font-bold mb-4">🧾 Preview Saved Content</h3>
-      
-      <div className="preview-section mb-6 p-4 bg-gray-50 rounded border border-gray-200">
-        <div 
-          className="prose max-w-none" 
-          dangerouslySetInnerHTML={{ __html: content.title }} 
-        />
-        <div 
-          className="prose max-w-none" 
-          dangerouslySetInnerHTML={{ __html: content.body }} 
+      {/* Title editor with bubble menu */}
+      <div className="pt-20 mb-12 relative">
+        {headingEditor && renderBubbleMenu(headingEditor, true)}
+        <EditorContent 
+          editor={headingEditor} 
+          className="heading-editor min-h-[60px] text-center"
         />
       </div>
+
+      {/* Body editor with bubble menu */}
+      <div className="relative">
+        {bodyEditor && renderBubbleMenu(bodyEditor)}
+        <EditorContent 
+          editor={bodyEditor} 
+          className="body-editor min-h-[300px]"
+        />
+      </div>
+
+      {/* Preview section - styled like Medium articles */}
+      {content.title || content.body ? (
+        <div className="mt-20 pt-10 border-t border-gray-200">
+          <h3 className="text-2xl font-bold mb-8 text-gray-500">Preview</h3>
+          
+          <div className="prose max-w-none prose-lg mx-auto">
+            <div 
+              className="font-serif text-5xl font-bold text-center mb-12"
+              dangerouslySetInnerHTML={{ __html: content.title }} 
+            />
+            <div 
+              className="font-serif text-xl leading-8 text-gray-700"
+              dangerouslySetInnerHTML={{ __html: content.body }} 
+            />
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
