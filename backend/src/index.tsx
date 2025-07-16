@@ -38,6 +38,19 @@ app.post("/addPost", async (req, res) => {
     }
 });
 
+app.put("/updatePost", async (req, res) => {
+    const {title, body} = req.body;
+
+    try{
+
+    } catch(error){
+        return res.status(500).json({
+            Message: "Something went wrong",
+            error:error
+        });
+    }
+});
+
 app.listen(3000, () => {
     console.log("Server Running at port 3000");
 });
