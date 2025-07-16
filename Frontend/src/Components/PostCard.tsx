@@ -37,6 +37,9 @@ export const PostCard = ({post}:PostCardProps) => {
                     </button>
                 </div>
             </div>
+            <div className="w-full border rounded-2xl border-b-gray-200 opacity-50 mt-6">
+
+            </div>
         </div>
     )
 }
