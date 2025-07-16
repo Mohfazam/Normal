@@ -15,6 +15,19 @@ app.get("/health", (req, res) => {
     });
 });
 
+app.get("/allPosts", async (req, res) => {
+    const allPosts = await client.post.findMany({
+        orderBy:{
+            createdAt:"desc"
+        }
+    });
+
+    return res.status(200).json({
+        Message: "All posts fetched successfully",
+        Posts: allPosts
+    });
+});
+
 app.post("/addPost", async (req, res) => {
     const {title, body} = req.body;
 

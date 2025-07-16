@@ -24,6 +24,17 @@ app.get("/health", (req, res) => {
         Message: "Backend Up and Running"
     });
 });
+app.get("/allPosts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const allPosts = yield client.post.findMany({
+        orderBy: {
+            createdAt: "desc"
+        }
+    });
+    return res.status(200).json({
+        Message: "All posts fetched successfully",
+        Posts: allPosts
+    });
+}));
 app.post("/addPost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, body } = req.body;
     try {
