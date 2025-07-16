@@ -1,7 +1,9 @@
+import { TextEditor } from "../Components/TextEditor"
+
 export const Home = () => {
     return(
         <div>
-            Home page
+            <TextEditor Editable={true} />
         </div>
     )
 }

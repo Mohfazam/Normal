@@ -3,6 +3,7 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import { Heading } from '@tiptap/extension-heading'
+import Underline from '@tiptap/extension-underline'
 import { useState } from 'react'
 
 interface TextEditorProps {
@@ -19,13 +20,17 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
     extensions: [
       StarterKit.configure({ heading: false }),
       Heading.configure({ levels: [1, 2, 3] }),
+      Underline,
     ],
     content: '<h1>Title goes here</h1>',
     editable: Editable,
   })
 
   const bodyEditor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Underline,
+    ],
     content: '<p>Start writing your story...</p>',
     editable: Editable,
   })
@@ -43,19 +48,18 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
     // @ts-ignore
     <BubbleMenu editor={editor} tippyOptions={{ duration: 0 }}>
       <div className="bubble-menu">
-        {['bold', 'italic', 'strike'].map((format) => (
+        {[
+          { label: 'Bold', command: 'toggleBold' },
+          { label: 'Italic', command: 'toggleItalic' },
+          { label: 'Strike', command: 'toggleStrike' },
+          { label: 'Underline', command: 'toggleUnderline' },
+        ].map(({ label, command }) => (
           <button
-            key={format}
-            onClick={() =>
-              editor
-                .chain()
-                .focus()
-                [`toggle${format[0].toUpperCase()}${format.slice(1)}`]()
-                .run()
-            }
-            className={editor.isActive(format) ? 'is-active' : ''}
+            key={label}
+            onClick={() => editor.chain().focus()[command]().run()}
+            className={editor.isActive(command.replace('toggle', '').toLowerCase()) ? 'is-active' : ''}
           >
-            {format}
+            {label}
           </button>
         ))}
       </div>
