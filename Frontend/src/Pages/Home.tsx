@@ -3,7 +3,7 @@ import { TextEditor } from "../Components/TextEditor"
 export const Home = () => {
     return(
         <div>
-            <TextEditor Editable={true} />
+            <TextEditor editable={true} onSave={() => null} />
         </div>
     )
 }

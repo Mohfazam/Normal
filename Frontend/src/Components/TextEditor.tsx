@@ -10,19 +10,27 @@ import OrderedList from '@tiptap/extension-ordered-list'
 import Blockquote from '@tiptap/extension-blockquote'
 import Code from '@tiptap/extension-code'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { common, createLowlight } from 'lowlight'
 
 const lowlight = createLowlight(common)
 
 interface TextEditorProps {
-  Editable: boolean;
+  editable: boolean;
+  initialTitle?: string;
+  initialBody?: string;
+  onSave: (content: { title: string; body: string }) => void;
 }
 
-export const TextEditor = ({ Editable }: TextEditorProps) => {
+export const TextEditor = ({ 
+  editable,
+  initialTitle = '<h1>Title goes here</h1>',
+  initialBody = '<p>Start writing your story...</p>',
+  onSave 
+}: TextEditorProps) => {
   const [content, setContent] = useState({
-    title: '',
-    body: '',
+    title: initialTitle,
+    body: initialBody,
   })
 
   const headingEditor = useEditor({
@@ -41,8 +49,8 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
         HTMLAttributes: { class: 'text-green-600 hover:underline' }
       }),
     ],
-    content: '<h1>Title goes here</h1>',
-    editable: Editable,
+    content: initialTitle,
+    editable: editable,
     editorProps: {
       attributes: {
         class: 'focus:outline-none',
@@ -86,8 +94,8 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
       }),
       Underline,
     ],
-    content: '<p>Start writing your story...</p>',
-    editable: Editable,
+    content: initialBody,
+    editable: editable,
     editorProps: {
       attributes: {
         class: 'focus:outline-none',
@@ -95,12 +103,24 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
     },
   })
 
+  // Update editors when initial content changes (e.g., after fetching from API)
+  useEffect(() => {
+    if (headingEditor && initialTitle) {
+      headingEditor.commands.setContent(initialTitle)
+    }
+    if (bodyEditor && initialBody) {
+      bodyEditor.commands.setContent(initialBody)
+    }
+  }, [initialTitle, initialBody, headingEditor, bodyEditor])
+
   const handleSave = () => {
     if (headingEditor && bodyEditor) {
-      setContent({
+      const newContent = {
         title: headingEditor.getHTML(),
         body: bodyEditor.getHTML(),
-      })
+      }
+      setContent(newContent)
+      onSave(newContent)
     }
   }
 
@@ -115,7 +135,6 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
         zIndex: 999,
       }}
       shouldShow={({ editor }) => {
-        // Only show bubble menu when there's text selected
         return editor.view.state.selection.content().size > 0
       }}
     >
@@ -125,9 +144,7 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
           { label: 'Italic', command: 'toggleItalic', icon: 'I' },
           { label: 'Underline', command: 'toggleUnderline', icon: 'U' },
           ...(isTitle ? [] : [
-            { label: 'H1', command: 'toggleHeading', args: [{ level: 1 }], icon: 'H1' },
             { label: 'H2', command: 'toggleHeading', args: [{ level: 2 }], icon: 'H2' },
-            { label: 'H3', command: 'toggleHeading', args: [{ level: 3 }], icon: 'H3' }
           ]),
           ...(isTitle ? [] : [
             { label: 'Quote', command: 'toggleBlockquote', icon: '❝' },
@@ -137,24 +154,15 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
         ].map(({ label, command, args = [], icon }) => {
           let isActive = false;
           
-          // Special handling for heading activation check
           if (command === 'toggleHeading') {
             isActive = editor.isActive('heading', { level: args[0]?.level || 2 });
-          } 
-          // Special handling for blockquote
-          else if (command === 'toggleBlockquote') {
+          } else if (command === 'toggleBlockquote') {
             isActive = editor.isActive('blockquote');
-          }
-          // Special handling for bullet list
-          else if (command === 'toggleBulletList') {
+          } else if (command === 'toggleBulletList') {
             isActive = editor.isActive('bulletList');
-          }
-          // Special handling for code block
-          else if (command === 'toggleCodeBlock') {
+          } else if (command === 'toggleCodeBlock') {
             isActive = editor.isActive('codeBlock');
-          }
-          // Default activation check
-          else {
+          } else {
             const baseCommand = command.replace('toggle', '').toLowerCase();
             isActive = editor.isActive(baseCommand);
           }
@@ -178,13 +186,13 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
 
   return (
     <div className="max-w-3xl mx-auto pb-20">
-      {/* Fixed publish button */}
+      {/* Fixed publish/update button */}
       <div className="fixed top-4 right-4 z-10">
         <button 
           onClick={handleSave} 
           className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition shadow-md"
         >
-          Publish
+          {initialTitle ? 'Update' : 'Publish'}
         </button>
       </div>
 
@@ -206,11 +214,10 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
         />
       </div>
 
-      {/* Preview section - styled like Medium articles */}
-      {content.title || content.body ? (
+      {/* Preview section */}
+      {(content.title || content.body) && (
         <div className="mt-20 pt-10 border-t border-gray-200">
           <h3 className="text-2xl font-bold mb-8 text-gray-500">Preview</h3>
-          
           <div className="prose max-w-none prose-lg mx-auto">
             <div 
               className="font-serif text-5xl font-bold text-center mb-12"
@@ -222,7 +229,7 @@ export const TextEditor = ({ Editable }: TextEditorProps) => {
             />
           </div>
         </div>
-      ) : null}
+      )}
     </div>
   )
 }
