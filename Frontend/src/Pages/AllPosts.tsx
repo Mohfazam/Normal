@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Navbar } from "../Components/Navbar";
 import { PostCard } from "../Components/PostCard";
+import axios from "axios";
+
 interface Post{
     id: number;
     title: string;
@@ -11,7 +13,16 @@ interface Post{
 const allPosts = () => {
     const [posts, setPosts] = useState<Post[]>([]);
 
-    useEffect
+    useEffect(() => {
+        const fetchPosts = async () =>{
+            try{
+                const res = await axios.get("https://normalbackend.vercel.app/allPosts");
+                setPosts(res.data.Posts);
+            } catch(error){
+                console.log("Error fetching posts", error);
+            }
+        }
+    }, []);
 }
 
 const Post = {
