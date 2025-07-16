@@ -15,7 +15,6 @@ import { common, createLowlight } from 'lowlight'
 
 const lowlight = createLowlight(common)
 
-
 const DEFAULT_TITLE = '<h1>Title goes here</h1>'
 const DEFAULT_BODY = '<p>Start writing your story...</p>'
 
@@ -40,7 +39,7 @@ export const TextEditor = ({
     extensions: [
       StarterKit.configure({ heading: false }),
       Heading.configure({ 
-        levels: [1, 2, 3],
+        levels: [1],
         HTMLAttributes: {
           class: 'font-serif font-bold tracking-tight'
         }
@@ -71,6 +70,12 @@ export const TextEditor = ({
           HTMLAttributes: {
             class: 'font-serif text-xl leading-8 mb-6 text-gray-700'
           }
+        }
+      }),
+      Heading.configure({ 
+        levels: [1, 2, 3],
+        HTMLAttributes: {
+          class: 'font-serif font-bold mt-8 mb-4'
         }
       }),
       TextAlign.configure({ types: ['paragraph', 'heading'] }),
@@ -111,7 +116,6 @@ export const TextEditor = ({
       setPreviewBody(editor.getHTML())
     },
   })
-
 
   useEffect(() => {
     if (headingEditor && initialTitle) {
@@ -154,19 +158,15 @@ export const TextEditor = ({
           { label: 'Italic', command: 'toggleItalic', icon: 'I' },
           { label: 'Underline', command: 'toggleUnderline', icon: 'U' },
           ...(isTitle ? [] : [
-            { label: 'H2', command: 'toggleHeading', args: [{ level: 2 }], icon: 'H2' },
-          ]),
-          ...(isTitle ? [] : [
             { label: 'Quote', command: 'toggleBlockquote', icon: '❝' },
             { label: 'Code', command: 'toggleCodeBlock', icon: '</>' },
             { label: 'Bullets', command: 'toggleBulletList', icon: '•' },
           ]),
+          //@ts-ignore
         ].map(({ label, command, args = [], icon }) => {
           let isActive = false;
           
-          if (command === 'toggleHeading') {
-            isActive = editor.isActive('heading', { level: args[0]?.level || 2 });
-          } else if (command === 'toggleBlockquote') {
+          if (command === 'toggleBlockquote') {
             isActive = editor.isActive('blockquote');
           } else if (command === 'toggleBulletList') {
             isActive = editor.isActive('bulletList');
@@ -198,7 +198,6 @@ export const TextEditor = ({
 
   return (
     <div className="max-w-3xl mx-auto pb-20">
-      
       <div className="fixed top-42 right-40 z-10">
         <button 
           onClick={handleSave} 
@@ -208,7 +207,6 @@ export const TextEditor = ({
         </button>
       </div>
 
-      
       <div className="p-12 m-10 relative border rounded-4xl border-gray-300">
         {headingEditor && renderBubbleMenu(headingEditor, true)}
         <EditorContent 
@@ -217,7 +215,6 @@ export const TextEditor = ({
         />
       </div>
 
-      
       <div className="w-3xl border rounded-4xl border-gray-300 p-6">
         {bodyEditor && renderBubbleMenu(bodyEditor)}
         <EditorContent 
