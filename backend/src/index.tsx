@@ -20,18 +20,18 @@ app.post("/addPost", async (req, res) => {
 
     try{
         const response = await client.post.create({
-        data:{
-            title: title,
-            body: body,
-        }
-    });
+            data:{
+                title: title,
+                body: body,
+            }
+        });
 
-    res.status(200).json({
+        return res.status(200).json({
         Message: "Post Added Successfully",
         response
-    });
+        });
     } catch(error){
-        res.status(500).json({
+        return res.status(500).json({
             Message: "Something wrong",
             error: error
         });
