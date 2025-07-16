@@ -17,12 +17,12 @@ export const Navbar = () => {
 
                     <div className="flex gap-2">
                         <List />
-                        <button onClick={() => navigate("/")} className="text-gray-900 font-bold hover:cursor-pointer">All Posts</button>
+                        <button onClick={() => navigate("/allPosts")} className="text-gray-900 font-bold hover:cursor-pointer">All Posts</button>
                     </div>
 
                     <div className="flex gap-2">
                         <PenLine />
-                        <button onClick={() => navigate("/")} className="text-gray-900 font-bold hover:cursor-pointer">New post</button>
+                        <button onClick={() => navigate("/newPost")} className="text-gray-900 font-bold hover:cursor-pointer">New post</button>
                     </div>
                 </div>
             </div>

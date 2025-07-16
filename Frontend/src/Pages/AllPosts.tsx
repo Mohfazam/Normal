@@ -1,4 +1,4 @@
-export const AllBlogs = () => {
+export const AllPosts = () => {
     return(
         <div>
             ALL BLOGS

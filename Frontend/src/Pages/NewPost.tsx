@@ -1,7 +1,7 @@
 import { Navbar } from "../Components/Navbar"
 
 
-export const NewBlog = () => {
+export const NewPost = () => {
     return(
         <div>
             <Navbar />

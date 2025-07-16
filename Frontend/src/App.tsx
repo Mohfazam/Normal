@@ -2,8 +2,8 @@
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Home } from './Pages/Home'
-import { AllBlogs } from './Pages/AllPosts'
-import { NewBlog } from './Pages/NewPost'
+import { AllPosts } from './Pages/AllPosts'
+import { NewPost } from './Pages/NewPost'
 
 const router = createBrowserRouter([
   {
@@ -12,11 +12,11 @@ const router = createBrowserRouter([
   },
   {
     path:"/allPosts",
-    element: <AllBlogs />,
+    element: <AllPosts />,
   },
   {
     path:"/newPost",
-    element: <NewBlog />
+    element: <NewPost />
   },
 ])
 
