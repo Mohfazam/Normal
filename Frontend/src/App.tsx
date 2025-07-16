@@ -1,9 +1,9 @@
 
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { TextEditor } from './Components/TextEditor'
 import { Home } from './Pages/Home'
 import { AllBlogs } from './Pages/AllBlogs'
+import { NewBlog } from './Pages/NewBlog'
 
 const router = createBrowserRouter([
   {
@@ -13,6 +13,10 @@ const router = createBrowserRouter([
   {
     path:"/allBlogs",
     element: <AllBlogs />,
+  },
+  {
+    path:"/newBlogs",
+    element: <NewBlog />
   },
 ])
 
