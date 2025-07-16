@@ -36,7 +36,7 @@ export const AllPosts = () => {
         </h1>
         <div className="text-wrap text-center w-108">
           <span className="text-lg text-gray-600 max-w-xl mx-auto leading-relaxed">
-            <strong>Normal</strong> — a clone of Medium with post creation, editing, and viewing. Built for <strong>CODING-JUNIOR</strong>.
+            <strong>Normal</strong> - a clone of Medium with post creation, editing, and viewing. Built for <strong>CODING-JUNIOR</strong>.
           </span>
         </div>
       </div>
