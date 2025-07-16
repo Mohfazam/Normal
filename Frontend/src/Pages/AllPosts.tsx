@@ -17,7 +17,7 @@ export const AllPosts = () => {
     const fetchPosts = async () => {
       try {
         const res = await axios.get("https://normalbackend.vercel.app/allPosts");
-        setPosts(res.data.Posts); // this assumes the backend returns { Posts: [...] }
+        setPosts(res.data.Posts); 
       } catch (error) {
         console.error("Error fetching posts", error);
       }
