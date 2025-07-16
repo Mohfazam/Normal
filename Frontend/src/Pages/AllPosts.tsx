@@ -1,5 +1,18 @@
+import { useEffect, useState } from "react";
 import { Navbar } from "../Components/Navbar";
 import { PostCard } from "../Components/PostCard";
+interface Post{
+    id: number;
+    title: string;
+    body:string;
+    createdAt: string;
+}
+
+const allPosts = () => {
+    const [posts, setPosts] = useState<Post[]>([]);
+
+    useEffect
+}
 
 const Post = {
     title: "Title for the post which should be fetched from the backend",
