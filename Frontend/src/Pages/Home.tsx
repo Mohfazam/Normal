@@ -1,9 +1,10 @@
-import { TextEditor } from "../Components/TextEditor"
+import { Navbar } from "../Components/Navbar"
 
 export const Home = () => {
     return(
         <div>
-            <TextEditor editable={true} onSave={() => null} />
+            <Navbar />
+            Home
         </div>
     )
 }

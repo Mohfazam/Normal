@@ -199,10 +199,10 @@ export const TextEditor = ({
   return (
     <div className="max-w-3xl mx-auto pb-20">
       
-      <div className="fixed top-4 right-4 z-10">
+      <div className="fixed top-42 right-40 z-10">
         <button 
           onClick={handleSave} 
-          className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition shadow-md"
+          className="px-8 py-4 bg-green-600 text-white rounded-full hover:bg-green-700 transition shadow-md hover:cursor-pointer"
         >
           {isEditMode ? 'Update' : 'Publish'}
         </button>
