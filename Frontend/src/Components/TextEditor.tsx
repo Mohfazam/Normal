@@ -218,7 +218,7 @@ export const TextEditor = ({
       </div>
 
       
-      <div className="w-3xl border rounded-4xl border-gray-300 p-8">
+      <div className="w-3xl border rounded-4xl border-gray-300 p-6">
         {bodyEditor && renderBubbleMenu(bodyEditor)}
         <EditorContent 
           editor={bodyEditor} 
@@ -226,7 +226,7 @@ export const TextEditor = ({
         />
       </div>
 
-      <div className="mt-20 pt-10 border-t border-gray-200">
+      <div className="mt-8 pt-10 border-t border-gray-200">
         <h3 className="text-2xl font-bold mb-8 text-gray-500">Preview</h3>
         <div className="prose max-w-none prose-lg mx-auto">
           <div 
