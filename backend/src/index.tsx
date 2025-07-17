@@ -61,6 +61,19 @@ app.get("/getPost", async (req, res) => {
 
 });
 
+app.get("/latestPosts", async (req, res) => {
+    const posts = await client.post.findMany({
+        where:{
+            createdAt:"desc"
+        },
+        take: 5
+    });
+
+    return res.status(200).json({
+        Message: "Lates 5 posts fetched"
+    });
+});
+
 app.post("/addPost", async (req, res) => {
     const { title, body } = req.body;
 
