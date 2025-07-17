@@ -35,14 +35,14 @@ export const PostEdit = () => {
         const updatedPost = {
             title: content.title,
             body: content.body,
-            id: id
+            id: Number(id)
         };
 
         try{
             const response = await axios.put("https://normalbackend.vercel.app/updatePost", updatedPost);
             alert("Post Updated");
             console.log(response);
-            navigate(`/ViewPost/:${id}`);
+            navigate(`/ViewPost/${id}`);
         } catch(error){
             console.log("Something went wrong. error:", error);
         }
