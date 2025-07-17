@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 interface PostCardProps {
@@ -20,6 +21,18 @@ export const PostCard = ({ post }: PostCardProps) => {
     const handlereadMore = () => {
         navigate(`/ViewPost/${post.id}`);
     }
+
+    const handleDelete = async () => {
+        const id = post.id;
+        try{
+            const response = await axios.delete(`https:normalbackend.vercel.app/deletePost?id=${id}`);
+        console.log(`Post with id: ${id} deleted` + response);
+        alert("Post Deleted");
+         window.location.reload();
+        } catch(error){
+            console.log("Something went wrong. \n error: " + error);
+        }
+    };
 
 
     const truncateBody = (htmlContent: string, maxLength: number = 150): string => {
@@ -85,7 +98,7 @@ export const PostCard = ({ post }: PostCardProps) => {
                         <button className="text-sm text-blue-600 hover:text-blue-600 font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 rounded-md px-2 py-1 hover:cursor-pointer" onClick={handleEdit}>
                             Edit
                         </button>
-                        <button className="text-sm text-red-600 hover:text-red-600 font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 rounded-md px-2 py-1 hover:cursor-pointer" onClick={handleEdit}>
+                        <button className="text-sm text-red-600 hover:text-red-600 font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 rounded-md px-2 py-1 hover:cursor-pointer" onClick={handleDelete}>
                             Delete
                         </button>
                     </div>
