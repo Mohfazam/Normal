@@ -106,18 +106,26 @@ app.put("/updatePost", (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 }));
-app.delete("/deletePost", (req, res) => {
+app.delete("/deletePost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.query.id;
-    const response = client.post.delete({
-        where: {
-            id: Number(id)
-        }
-    });
-    return res.status(302).json({
-        Message: `Post with id: ${id} is deleted`,
-        response: response
-    });
-});
+    try {
+        const response = yield client.post.delete({
+            where: {
+                id: Number(id)
+            }
+        });
+        return res.status(200).json({
+            message: `Post with id: ${id} deleted successfully`,
+            response
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: "Failed to delete post",
+            error
+        });
+    }
+}));
 app.listen(3000, () => {
     console.log("Server Running at port 3000");
 });
