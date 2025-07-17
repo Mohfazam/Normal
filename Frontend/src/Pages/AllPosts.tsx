@@ -10,8 +10,11 @@ interface Post {
   createdAt: string;
 }
 
+type SortOrder = "latest" | "oldest";
+
 export const AllPosts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [sortOrder, setSortOrder] = useState<SortOrder>("latest");
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -25,6 +28,15 @@ export const AllPosts = () => {
 
     fetchPosts();
   }, []);
+
+  
+  const sortedPosts = [...posts].sort((a, b) => {
+    if (sortOrder === "latest") {
+      return b.id - a.id; 
+    } else {
+      return a.id - b.id; 
+    }
+  });
 
   return (
     <div>
@@ -41,8 +53,34 @@ export const AllPosts = () => {
         </div>
       </div>
 
+      <div className="max-w-4xl mx-auto px-4 mb-6">
+        <div className="flex gap-4 items-center">
+          <span className="text-gray-700 font-medium">Sort by:</span>
+          <button
+            onClick={() => setSortOrder("latest")}
+            className={`px-4 py-2 rounded-md border transition-colors ${
+              sortOrder === "latest"
+                ? "bg-blue-500 text-white border-blue-500"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+            }`}
+          >
+            Latest Top
+          </button>
+          <button
+            onClick={() => setSortOrder("oldest")}
+            className={`px-4 py-2 rounded-md border transition-colors ${
+              sortOrder === "oldest"
+                ? "bg-blue-500 text-white border-blue-500"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+            }`}
+          >
+            Oldest Top
+          </button>
+        </div>
+      </div>
+
       <div className="max-w-4xl mx-auto flex flex-col gap-4 px-4">
-        {posts.map((post) => (
+        {sortedPosts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </div>
