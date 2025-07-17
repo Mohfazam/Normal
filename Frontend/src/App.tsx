@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <NewPost />
   },
   {
-    path:"/postEdit",
+    path:"/postEdit/:id",
     element: <PostEdit />
   },
 ])
