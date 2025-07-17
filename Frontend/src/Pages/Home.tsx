@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Navbar } from "../Components/Navbar"
 import axios from "axios"
 import { PostCard } from "../Components/PostCard"
+import { useNavigate } from "react-router-dom";
 
 interface Post {
     id: number;
@@ -11,6 +12,8 @@ interface Post {
 }
 
 export const Home = () => {
+
+    const navigate = useNavigate();
 
     const [posts, setPosts] = useState<Post[]>([]);
 
@@ -44,7 +47,7 @@ export const Home = () => {
                             </div>
 
                             <div>
-                                <button className="bg-gray-900 text-white px-8 py-3 rounded-full text-lg font-medium hover:bg-gray-800 transition-colors duration-200">Start Reading</button>
+                                <button className="bg-gray-900 text-white px-8 py-3 rounded-full text-lg font-medium hover:bg-gray-800 transition-colors duration-200 hover:cursor-pointer" onClick={() => navigate("/allPosts")}>Start Reading</button>
                             </div>
                         </div>
                     </div>
