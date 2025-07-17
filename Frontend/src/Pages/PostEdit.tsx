@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { Navbar } from '../Components/Navbar';
 import { TextEditor } from '../Components/TextEditor';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const PostEdit = () => {
 
@@ -40,11 +41,12 @@ export const PostEdit = () => {
 
         try{
             const response = await axios.put("https://normalbackend.vercel.app/updatePost", updatedPost);
-            alert("Post Updated");
+            // alert("Post Updated");
+            toast.success("Post Updated");
             console.log(response);
             navigate(`/ViewPost/${id}`);
         } catch(error){
-            console.log("Something went wrong. error:", error);
+            toast.error("Something went wrong. error:" + error);
         }
 
 
