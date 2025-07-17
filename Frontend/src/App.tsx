@@ -5,6 +5,7 @@ import { Home } from './Pages/Home'
 import { AllPosts } from './Pages/AllPosts'
 import { NewPost } from './Pages/NewPost'
 import { PostEdit } from './Pages/PostEdit'
+import { ViewPost } from './Pages/ViewPost'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path:"/postEdit/:id",
     element: <PostEdit />
+  },
+  {
+    path:"/ViewPost/:id",
+    element: <ViewPost />
   },
 ])
 
