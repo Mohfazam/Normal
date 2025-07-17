@@ -65,13 +65,14 @@ app.get("/getPost", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 }));
 app.get("/latestPosts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const posts = yield client.post.findMany({
-        where: {
+        orderBy: {
             createdAt: "desc"
         },
         take: 5
     });
     return res.status(200).json({
-        Message: "Lates 5 posts fetched"
+        Message: "Lates 5 posts fetched",
+        posts: posts
     });
 }));
 app.post("/addPost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
