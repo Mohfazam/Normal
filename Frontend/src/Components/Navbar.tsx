@@ -9,7 +9,7 @@ export const Navbar = () => {
       <div className="flex items-center justify-between w-full">
         
         
-        <h1 className="text-4xl text-gray-900 font-bold">Normal</h1>
+        <h1 className="text-4xl text-gray-900 font-bold hover:cursor-pointer" onClick={() => navigate("/")}>Normal</h1>
         
         
         <div className="flex gap-12 items-center">
