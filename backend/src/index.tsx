@@ -1,4 +1,4 @@
-import  express  from "express";
+import express from "express";
 import cors from "cors"
 import { PrismaClient } from "@prisma/client";
 
@@ -17,8 +17,8 @@ app.get("/health", (req, res) => {
 
 app.get("/allPosts", async (req, res) => {
     const allPosts = await client.post.findMany({
-        orderBy:{
-            createdAt:"desc"
+        orderBy: {
+            createdAt: "desc"
         }
     });
 
@@ -28,22 +28,52 @@ app.get("/allPosts", async (req, res) => {
     });
 });
 
-app.post("/addPost", async (req, res) => {
-    const {title, body} = req.body;
+app.get("/getPost", async (req, res) => {
+    const id = Number(req.query.id);
 
-    try{
+    try {
+        const post = await client.post.findFirst({
+            where: {
+                id: id
+            }
+        });
+
+        if (!post) {
+            return res.status(404).json({
+                Error: "Post Not Found"
+            });
+        }
+
+        return res.status(200).json({
+            Message: "Post Fetched Successfully",
+            post
+        });
+    } catch (error) {
+        return res.status(500).json({
+            Message: "Something went wrong",
+            "error": error
+        })
+    }
+
+
+});
+
+app.post("/addPost", async (req, res) => {
+    const { title, body } = req.body;
+
+    try {
         const response = await client.post.create({
-            data:{
+            data: {
                 title: title,
                 body: body,
             }
         });
 
         return res.status(200).json({
-        Message: "Post Added Successfully",
-        response
+            Message: "Post Added Successfully",
+            response
         });
-    } catch(error){
+    } catch (error) {
         return res.status(500).json({
             Message: "Something wrong",
             error: error
@@ -52,13 +82,13 @@ app.post("/addPost", async (req, res) => {
 });
 
 app.put("/updatePost", async (req, res) => {
-    const {title, body, id} = req.body;
+    const { title, body, id } = req.body;
 
-    try{
+    try {
 
-        const updatedPost  = await client.post.update({
-            where: {id: id},
-            data:{
+        const updatedPost = await client.post.update({
+            where: { id: id },
+            data: {
                 title: title,
                 body: body
             }
@@ -69,10 +99,10 @@ app.put("/updatePost", async (req, res) => {
             updatedPost
         });
 
-    } catch(error){
+    } catch (error) {
         return res.status(500).json({
             Message: "Something went wrong",
-            error:error
+            error: error
         });
     }
 });
