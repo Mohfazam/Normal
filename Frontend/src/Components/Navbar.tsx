@@ -13,17 +13,17 @@ export const Navbar = () => {
         
         
         <div className="flex gap-12 items-center">
-          <div className="flex gap-2 items-center cursor-pointer" onClick={() => navigate("/")}>
+          <div className="flex gap-2 items-center cursor-pointer hover:bg-gray-100 p-[12px] hover:rounded-2xl" onClick={() => navigate("/")}>
             <House />
             <span className="text-gray-900 font-bold">Home</span>
           </div>
 
-          <div className="flex gap-2 items-center cursor-pointer" onClick={() => navigate("/allPosts")}>
+          <div className="flex gap-2 items-center cursor-pointer hover:bg-gray-100 p-[12px] hover:rounded-2xl" onClick={() => navigate("/allPosts")}>
             <List />
             <span className="text-gray-900 font-bold">All Posts</span>
           </div>
 
-          <div className="flex gap-2 items-center cursor-pointer" onClick={() => navigate("/newPost")}>
+          <div className="flex gap-2 items-center cursor-pointer hover:bg-gray-100 p-[12px] hover:rounded-2xl" onClick={() => navigate("/newPost")}>
             <PenLine />
             <span className="text-gray-900 font-bold">New Post</span>
           </div>
