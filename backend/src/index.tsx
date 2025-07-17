@@ -110,10 +110,10 @@ app.put("/updatePost", async (req, res) => {
     }
 });
 
-app.delete("/deletePost", (req, res) => {
+app.delete("/deletePost", async (req, res) => {
     const id = req.query.id;
 
-    const response = client.post.delete({
+    const response = await client.post.delete({
         where:{
             id: Number(id)
         }
