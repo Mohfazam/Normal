@@ -15,12 +15,12 @@ export const ViewPost = () => {
 
     useEffect(() => {
         const fetchPost = async () => {
-            try{
+            try {
                 const post = await axios.get(`https://normalbackend.vercel.app/getPost?id=${id}`);
                 setPostTitle(post.data.post.title);
                 setPostBody(post.data.post.body);
-                setcreatedAt(post.data.createdAt);
-            } catch(error){
+                setcreatedAt(post.data.post.createdAt);
+            } catch (error) {
                 console.log("Something went wrong: ", error);
             }
         }
@@ -28,7 +28,7 @@ export const ViewPost = () => {
         fetchPost();
     }, [])
 
-    return(
+    return (
         <div>
             <div>
                 <Navbar />
@@ -40,18 +40,28 @@ export const ViewPost = () => {
             {/* main */}
             <div className="max-w-3xl mx-auto px-6 py-12">
                 <div>
-                    <p className="text-gray-500 text-sm">Published on {createdAt}</p>
+                    <p className="text-gray-500 text-sm">
+                        Published on {new Date(createdAt).toLocaleString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                            hour: "numeric",
+                            minute: "2-digit",
+                            hour12: true,
+                        })}
+                    </p>
+
                 </div>
 
                 <div className="w-4xl py-8 text-4xl">
-                    <div dangerouslySetInnerHTML={{__html: postTitle}} />
-                        
-                    
+                    <div dangerouslySetInnerHTML={{ __html: postTitle }} />
+
+
                 </div>
 
                 <div className="p-4 h-fit w-4xl">
-                    <div dangerouslySetInnerHTML={{__html: postBody}} />
-                        
+                    <div dangerouslySetInnerHTML={{ __html: postBody }} />
+
                 </div>
 
             </div>
