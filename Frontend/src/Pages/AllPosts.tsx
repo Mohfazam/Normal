@@ -29,6 +29,10 @@ export const AllPosts = () => {
     fetchPosts();
   }, []);
 
+  const handleDelete = (deletedid: number) => {
+    setPosts((prevPosts) => prevPosts.filter(post => post.id !== deletedid));
+  }
+
   
   const sortedPosts = [...posts].sort((a, b) => {
     if (sortOrder === "latest") {
@@ -81,7 +85,7 @@ export const AllPosts = () => {
 
       <div className="max-w-4xl mx-auto flex flex-col gap-4 px-4">
         {sortedPosts.map((post) => (
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post.id} post={post} onDelete={handleDelete}/>
         ))}
       </div>
     </div>

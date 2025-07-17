@@ -8,10 +8,11 @@ interface PostCardProps {
         title: string;
         body: string;
         createdAt: string
-    }
+    };
+    onDelete?: (id:number) => void;
 }
 
-export const PostCard = ({ post }: PostCardProps) => {
+export const PostCard = ({ post, onDelete }: PostCardProps) => {
 
     const navigate = useNavigate();
 
@@ -30,7 +31,7 @@ export const PostCard = ({ post }: PostCardProps) => {
         console.log(`Post with id: ${id} deleted` + response);
         // alert("Post Deleted");
         toast.success("Post deleted Successfully");
-         window.location.reload();
+         onDelete?.(id);
         } catch(error){
             // console.log("Something went wrong. \n error: " + error);
             toast.error("Something went wrong"+ error);
