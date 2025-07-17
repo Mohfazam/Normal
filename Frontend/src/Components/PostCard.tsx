@@ -63,10 +63,6 @@ export const PostCard = ({ post, onDelete }: PostCardProps) => {
 
     return (
 
-
-
-
-
         <div>
             <div className="group cursor-pointer bg-white rounded-lg p-6 hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200">
 
