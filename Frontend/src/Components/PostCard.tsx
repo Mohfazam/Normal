@@ -32,8 +32,8 @@ export const PostCard = ({ post }: PostCardProps) => {
         toast.success("Post deleted Successfully");
          window.location.reload();
         } catch(error){
-            console.log("Something went wrong. \n error: " + error);
-            // toast.error("Something went wrong"+ error);
+            // console.log("Something went wrong. \n error: " + error);
+            toast.error("Something went wrong"+ error);
         }
     };
 
