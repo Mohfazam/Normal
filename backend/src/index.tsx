@@ -110,6 +110,21 @@ app.put("/updatePost", async (req, res) => {
     }
 });
 
+app.delete("/deletePost", (req, res) => {
+    const id = req.query.id;
+
+    const response = client.post.delete({
+        where:{
+            id: Number(id)
+        }
+    });
+
+    return res.status(302).json({
+        Message: `Post with id: ${id} is deleted`,
+        response: response
+    });
+});
+
 app.listen(3000, () => {
     console.log("Server Running at port 3000");
 });
