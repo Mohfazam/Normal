@@ -20,7 +20,8 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.get("/health", (req, res) => {
-    res.status(200).json({
+    console.log("Health end point hit");
+    return res.status(200).json({
         Message: "Backend Up and Running"
     });
 });
@@ -34,6 +35,33 @@ app.get("/allPosts", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         Message: "All posts fetched successfully",
         Posts: allPosts
     });
+}));
+app.get("/getPost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = Number(req.query.id);
+    console.log(id);
+    try {
+        const post = yield client.post.findFirst({
+            where: {
+                id: id
+            }
+        });
+        console.log(post);
+        if (!post) {
+            return res.status(404).json({
+                Error: "Post Not Found"
+            });
+        }
+        return res.status(200).json({
+            Message: "Post Fetched Successfully",
+            post
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            Message: "Something went wrong",
+            "error": error
+        });
+    }
 }));
 app.post("/addPost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, body } = req.body;

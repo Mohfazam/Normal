@@ -10,7 +10,8 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/health", (req, res) => {
-    res.status(200).json({
+    console.log("Health end point hit");
+    return res.status(200).json({
         Message: "Backend Up and Running"
     });
 });
@@ -30,6 +31,7 @@ app.get("/allPosts", async (req, res) => {
 
 app.get("/getPost", async (req, res) => {
     const id = Number(req.query.id);
+    console.log(id);
 
     try {
         const post = await client.post.findFirst({
@@ -37,6 +39,7 @@ app.get("/getPost", async (req, res) => {
                 id: id
             }
         });
+        console.log(post);
 
         if (!post) {
             return res.status(404).json({
