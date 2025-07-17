@@ -1,9 +1,15 @@
 import { Back } from "../Components/Back"
+import { Navbar } from "../Components/Navbar"
 
 export const ViewPost = () => {
     return(
         <div>
-            <Back />
+            <div>
+                <Navbar />
+            </div>
+            <div>
+                <Back />
+            </div>
         </div>
     )
 }
