@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface PostCardProps {
     post: {
@@ -27,10 +28,12 @@ export const PostCard = ({ post }: PostCardProps) => {
         try{
             const response = await axios.delete(`https:normalbackend.vercel.app/deletePost?id=${id}`);
         console.log(`Post with id: ${id} deleted` + response);
-        alert("Post Deleted");
+        // alert("Post Deleted");
+        toast.success("Post deleted Successfully");
          window.location.reload();
         } catch(error){
-            console.log("Something went wrong. \n error: " + error);
+            // console.log("Something went wrong. \n error: " + error);
+            toast.error("Something went wrong"+ error);
         }
     };
 
