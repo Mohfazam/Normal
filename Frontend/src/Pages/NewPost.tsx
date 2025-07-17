@@ -1,31 +1,32 @@
-import { Navbar } from "../Components/Navbar"
-import { TextEditor } from "../Components/TextEditor"
+import { Navbar } from "../Components/Navbar";
+import { TextEditor } from "../Components/TextEditor";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // <-- make sure this is imported
 
 export const NewPost = () => {
     const navigate = useNavigate();
+    
 
     const newPost = async (content: { title: string; body: string }) => {
         try {
             console.log("New Post API Ready");
             const response = await axios.post("https://normalbackend.vercel.app/addPost", content);
             console.log("Post added successfully,", response);
-            alert("New Post Created Successfully");
-            navigate("/allposts");
+            toast.success("Post Published Successfully");
+            setTimeout(() => navigate("/allposts"), 1000); // small delay to allow toast to show
         } catch (error) {
-            console.log("Something went wrong. \n error:", error);
+            toast.error("❌ Something went wrong!");
+            console.error("Error:", error);
         }
-    }
+    };
 
     return (
         <div className="flex flex-col gap-4">
-            <div>
-                <Navbar />
-            </div>
-            <div>
-                <TextEditor editable={true} onSave={newPost} />
-            </div>
+            <Navbar />
+            <TextEditor editable={true} onSave={newPost} />
+            
         </div>
     );
 };

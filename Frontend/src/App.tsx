@@ -6,6 +6,7 @@ import { AllPosts } from './Pages/AllPosts'
 import { NewPost } from './Pages/NewPost'
 import { PostEdit } from './Pages/PostEdit'
 import { ViewPost } from './Pages/ViewPost'
+import { ToastContainer } from 'react-toastify';
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,19 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-    return <RouterProvider router={router} />
+    return <div>
+      <RouterProvider router={router} />
+    <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                pauseOnHover
+                draggable
+                theme="dark"
+            />
+    </div>
   
 }
 
