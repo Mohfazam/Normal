@@ -55,8 +55,12 @@ npm install
 ```
 ### 3. Run the Backend and Frontend
 - 3.1: Front-End:
-  cd Frontend
+ ```
+ cd Frontend
   npm run dev
+```
 - 3.2: Back-End:
+  ```
   cd backtend
   npm run dev
+```
