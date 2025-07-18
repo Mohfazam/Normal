@@ -1,4 +1,4 @@
-# 📝 Normal — Normal - a clone of Medium with post creation, editing, and viewing. Built for CODING-JUNIOR.
+# 📝 Normal — a clone of Medium with post creation, editing, and viewing. Built for CODING-JUNIOR.
 
 Normal is a lightweight, Medium-like blogging platform built using modern web technologies. Users can create rich blog posts with formatting like bold, italic, underline, bullet points, code blocks, and more.
 
