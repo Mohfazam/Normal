@@ -10,10 +10,27 @@ export const NewPost = () => {
     const navigate = useNavigate();
     const editorRef = useRef<HTMLDivElement>(null);
 
-    const newPost = async (content: { title: string; body: string }) => {
+    const newPost = async (content: { title: string; body: string; images?: File[] }) => {
         try {
             console.log("New Post API Ready");
-            const response = await axios.post("https://normalbackend.vercel.app/addPost", content);
+            console.log("Content:", content);
+            
+            if (content.images && content.images.length > 0) {
+                console.log("Images to upload:", content.images);
+                
+                
+                
+                content.images.forEach((image, index) => {
+                    console.log(`Image ${index + 1}:`, image.name, image.size, image.type);
+                });
+            }
+
+            const response = await axios.post("https://normalbackend.vercel.app/addPost", {
+                title: content.title,
+                body: content.body,
+                
+            });
+            
             console.log("Post added successfully,", response);
             toast.success("Post Published Successfully");
             setTimeout(() => navigate("/allposts"), 1000); 
@@ -24,6 +41,7 @@ export const NewPost = () => {
     };
 
     const handlePublish = () => {
+        
         const publishButton = editorRef.current?.querySelector('button');
         if (publishButton) {
             publishButton.click();
