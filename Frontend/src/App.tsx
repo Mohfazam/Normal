@@ -7,6 +7,7 @@ import { NewPost } from './Pages/NewPost'
 import { PostEdit } from './Pages/PostEdit'
 import { ViewPost } from './Pages/ViewPost'
 import { ToastContainer } from 'react-toastify';
+import { XtextEditor } from './Components/XTextEditor'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path:"/ViewPost/:id",
     element: <ViewPost />
+  },
+  {
+    path:"/test",
+    element: <XtextEditor />
   },
 ])
 
