@@ -138,16 +138,16 @@ export const XtextEditor = ({
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && bodyEditor) {
-      // Create a temporary URL for preview
+      
       const imageUrl = URL.createObjectURL(file);
 
-      // Store the file for later upload
+     
       uploadedImages.current.push(file);
 
-      // Insert the image into the editor
+      
       bodyEditor.chain().focus().setImage({ src: imageUrl }).run();
 
-      // Reset the file input
+      
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -256,7 +256,7 @@ export const XtextEditor = ({
 
   return (
     <div>
-      {/* Hidden file input for image upload */}
+
       <input
         ref={fileInputRef}
         type="file"
