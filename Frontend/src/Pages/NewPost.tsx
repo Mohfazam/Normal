@@ -1,5 +1,5 @@
 import { Navbar } from "../Components/Navbar";
-import { TextEditor } from "../Components/TextEditor";
+import {XtextEditor} from "../Components/XTextEditor"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
@@ -15,7 +15,7 @@ export const NewPost = () => {
             const response = await axios.post("https://normalbackend.vercel.app/addPost", content);
             console.log("Post added successfully,", response);
             toast.success("Post Published Successfully");
-            setTimeout(() => navigate("/allposts"), 1000); // small delay to allow toast to show
+            setTimeout(() => navigate("/allposts"), 1000); 
         } catch (error) {
             toast.error("❌ Something went wrong!");
             console.error("Error:", error);
@@ -25,7 +25,7 @@ export const NewPost = () => {
     return (
         <div className="flex flex-col gap-4">
             <Navbar />
-            <TextEditor editable={true} onSave={newPost} />
+            <XtextEditor editable={true} onSave={newPost} />
             
         </div>
     );

@@ -13,15 +13,6 @@ export const Navbar = () => {
         
         
         <div className="flex gap-8 items-center">
-          {/* <div className="flex gap-2 items-center cursor-pointer hover:bg-gray-100 p-[12px] hover:rounded-2xl" onClick={() => navigate("/")}>
-            <House />
-            <span className="text-gray-900 font-bold">Home</span>
-          </div> */}
-
-          {/* <div className="flex gap-2 items-center cursor-pointer hover:bg-gray-100 p-[12px] hover:rounded-2xl" onClick={() => navigate("/allPosts")}>
-            <List />
-            <span className="text-gray-900 font-bold">All Posts</span>
-          </div> */}
 
           <div className="flex gap-2 items-center cursor-pointer hover:bg-gray-100 p-[12px] hover:rounded-2xl" onClick={() => navigate("/newPost")}>
             <div className="text-[#6B6B6B]">
