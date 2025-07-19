@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Navbar } from '../Components/Navbar';
-import { TextEditor } from '../Components/TextEditor';
+import { XtextEditor } from '../Components/XTextEditor';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -58,7 +58,7 @@ export const PostEdit = () => {
                 <Navbar />
             </div>
             <div>
-                <TextEditor initialTitle={postTitlefetched} initialBody={postBody} editable={true} onSave={handlePostUpdate}/>
+                <XtextEditor initialTitle={postTitlefetched} initialBody={postBody} editable={true} onSave={handlePostUpdate}/>
             </div>
         </div>
     )
